@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
 import { handleGoogleAuth, GoogleProfile } from '../services/auth.service';
+import ms from 'ms'; // ✅ compatible with all tsconfig settings
+import dotenv from 'dotenv';
+dotenv.config();
 
 // Handle Google OAuth callback
 export const googleCallback = async (req: Request, res: Response): Promise<void> => {
@@ -14,14 +17,14 @@ export const googleCallback = async (req: Request, res: Response): Promise<void>
 
     // Process the Google profile
     const { user, token } = await handleGoogleAuth(profile);
-
-    // Set JWT as HTTP-only cookie
+    
     res.cookie('token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: ms('7d'), // convert "7d" to milliseconds
     });
+    
 
     // Redirect to frontend dashboard
     res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
