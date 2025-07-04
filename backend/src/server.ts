@@ -28,6 +28,12 @@ const startServer = async () => {
   }
 };
 
+
+app.get('/', (req, res) => {
+  res.json({ message :'Server is running' , frontendUrl: process.env.FRONTEND_URL},
+  );
+});
+
 // Handle server shutdown
 process.on('SIGINT', async () => {
   await prisma.$disconnect();
