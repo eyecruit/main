@@ -8,7 +8,14 @@ export interface JwtPayload {
   userId: string;
 }
 
-export const signToken = (user: UserData): string => {
+export interface JwtUserData {
+  id: string;
+  name: string | null;
+  email: string;
+  image: string | null;
+}
+
+export const signToken = (user: JwtUserData | UserData): string => {
   const payload: JwtPayload = {
     userId: user.id,
   };

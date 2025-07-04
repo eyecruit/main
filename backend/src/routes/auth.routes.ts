@@ -1,9 +1,13 @@
 import { Router } from 'express';
 import passport from 'passport';
-import { googleCallback, getCurrentUser, logout } from '../controllers/auth.controller';
+import { googleCallback, getCurrentUser, logout, login, signup } from '../controllers/auth.controller';
 import { authenticate } from '../middlewares/auth.middleware';
 
 const router = Router();
+
+// Email/Password authentication routes
+router.post('/login', login);
+router.post('/signup', signup);
 
 // Google OAuth routes
 router.get(

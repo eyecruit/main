@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import { verifyToken } from '../utils/jwt';
-import { UserData } from '../services/user.service';
 
 const prisma = new PrismaClient();
 
@@ -9,7 +8,7 @@ const prisma = new PrismaClient();
 declare global {
   namespace Express {
     interface Request {
-      userData?: UserData;
+      user?: User;
     }
   }
 }
@@ -46,7 +45,7 @@ export const authenticate = async (
     }
 
     // Attach user to request
-    req.user = user as UserData;
+    req.user = user;
     next();
   } catch (error) {
     console.error('Authentication error:', error);
