@@ -55,16 +55,16 @@ function DashboardCards() {
 
 function UserGreeting() {
   "use client";
-  
+
   const { user, loading } = useAuth();
-  
+  console.log(user);
   if (loading) {
     return <Skeleton className="h-8 w-48" />;
   }
   
   return (
     <h2 className="text-3xl font-bold tracking-tight">
-      Welcome back {user?.name || user?.email} 
+      Welcome back {user?.name || user?.email}
     </h2>
   );
 }

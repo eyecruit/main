@@ -7,7 +7,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 
 export default function DashboardHeader() {
   const { user, logout } = useAuth();
-  console.log( "user", user);
 
   return (
     <header className="border-b">

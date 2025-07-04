@@ -1,3 +1,4 @@
+"use client"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -10,11 +11,47 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import apiClient from "@/lib/axios"
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setError("")
+    setIsLoading(true)
+
+    try {
+      const response = await apiClient.post("/auth/signup", {
+        name,
+        email,
+        password,
+      })
+
+      if (response.data) {
+        // Redirect to dashboard on successful signup
+        router.push("/dashboard")
+      }
+    } catch (error: any) {
+      setError(
+        error.response?.data?.error || 
+        "Failed to sign up. Please try again."
+      )
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -25,7 +62,7 @@ export function SignupForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="grid gap-6">
               <div className="flex flex-col gap-4">
                 <Button variant="outline" className="w-full">
@@ -45,6 +82,11 @@ export function SignupForm({
                   Or continue with
                 </span>
               </div>
+              {error && (
+                <div className="text-sm text-red-500 text-center">
+                  {error}
+                </div>
+              )}
               <div className="grid gap-6">
                 <div className="grid gap-3">
                   <Label htmlFor="name">Name</Label>
@@ -53,6 +95,8 @@ export function SignupForm({
                     type="text"
                     placeholder="John Doe"
                     required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
                 <div className="grid gap-3">
@@ -62,23 +106,31 @@ export function SignupForm({
                     type="email"
                     placeholder="m@example.com"
                     required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="grid gap-3">
                   <div className="flex items-center">
                     <Label htmlFor="password">Password</Label>
                   </div>
-                  <Input id="password" type="password" required />
+                  <Input 
+                    id="password" 
+                    type="password" 
+                    required 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                 </div>
-                <Button type="submit" className="w-full">
-                  Signup
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? "Signing up..." : "Signup"}
                 </Button>
               </div>
               <div className="text-center text-sm">
                 Already have an account?{" "}
-                <a href="/login" className="underline underline-offset-4">
-                  Login here 
-                </a>
+                <Link href="/login" className="underline underline-offset-4">
+                  Login here
+                </Link>
               </div>
             </div>
           </form>
