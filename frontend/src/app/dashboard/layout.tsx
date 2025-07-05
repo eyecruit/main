@@ -1,19 +1,20 @@
 "use client";
 import { ReactNode } from "react";
 import { AuthProvider } from "@/lib/auth";
-import DashboardHeader from "@/components/ui/dashboard-header";
-import DashboardSidebar from "@/components/ui/dashboard-sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SiteHeader } from "@/components/site-header";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <AuthProvider>
-      <div className="flex min-h-screen flex-col">
-        <DashboardHeader />
-        <div className="flex flex-1">
-          <DashboardSidebar />
-          <main className="flex-1 p-6">{children}</main>
-        </div>
-      </div>
+      <SidebarProvider>
+          <SidebarInset>
+            <main className="flex-1">
+              {children}
+            </main>
+          </SidebarInset>
+      </SidebarProvider>
     </AuthProvider>
   );
 } 
