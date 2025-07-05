@@ -2,7 +2,6 @@
 
 import { useAuth } from "@/lib/auth";
 import { useEffect, useState } from "react";
-import { IoHappy, IoSunny, IoMoon } from "react-icons/io5";
 
 export function UserGreet() {
   const { user } = useAuth();
