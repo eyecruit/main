@@ -1,10 +1,10 @@
 "use client";
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/dashboard/sidebar/page"
 import { ChartAreaInteractive } from "@/components/chart-area-interactive"
 import { SectionCards } from "@/components/section-cards"
-import { SiteHeader } from "@/components/site-header"
+import { SiteHeader } from "@/components/dashboard/header/page"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
-import { UserGreet } from "@/components/user-greet";
+import { UserGreet } from "@/components/dashboard/user-greet/page";
 
 export default function DashboardPage() {
   return (
