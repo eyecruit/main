@@ -154,9 +154,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     name: user.name,
     email: user.email,
     avatar: user.image
-  } :
-    null
-
+  } : {
+    name: "Guest",
+    email: "guest@example.com",
+    avatar: "https://github.com/shadcn.png"
+  }
+  
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -180,7 +183,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        {userData && <NavUser user={userData} />}
+        <NavUser user={userData} />
       </SidebarFooter>
     </Sidebar>
   )
